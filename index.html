@@ -107,6 +107,17 @@
             margin: 12px 0; border-radius: 20px; cursor: pointer;
         }
         audio { display: none; }
+        
+        body {
+            background-image: url('data:image/svg+xml;utf8,<svg width="20" height="20" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M10 3.5c-1.5-2.5-5.5-2.5-7 0-2 2.5 0 6.5 7 11.5 7-5 9-9 7-11.5-1.5-2.5-5.5-2.5-7 0z" fill="%23ff8fab" opacity="0.1"/></svg>');
+            background-size: 60px 60px; /* Tamanho do padrão */
+            animation: bgScroll 20s linear infinite;
+        }
+
+        @keyframes bgScroll {
+            from { background-position: 0 0; }
+            to { background-position: 0 100%; } /* Move o fundo */
+        }
     </style>
 </head>
 <body>
