@@ -129,17 +129,26 @@
             from { background-position: 0 0; }
             to { background-position: 0 100%; } /* Move o fundo */
         }
-
+        
+        /* 1. Comportamento padrão (Celulares e Tablets) */
+        /* No celular, deixamos sempre colorido para o clique ser instantâneo */
         .polaroid img {
             width: 100%; height: 110px; object-fit: cover;
-            /* Começa preto e branco */
-            filter: grayscale(100%);
-            transition: filter 0.5s ease;
+            filter: grayscale(0%); /* Colorido sempre */
+            transition: transform 0.3s ease;
         }
 
-        /* Quando passa o mouse, fica colorido */
-        .polaroid:hover img {
-            filter: grayscale(0%);
+        /* 2. Comportamento APENAS para Computador (Onde existe mouse) */
+        @media (hover: hover) {
+            .polaroid img {
+                filter: grayscale(100%); /* Começa preto e branco */
+            }
+            
+            /* Quando passa o mouse no PC */
+            .polaroid:hover img {
+                filter: grayscale(0%); /* Fica colorido */
+                transform: scale(1.1); /* Dá um zoom suave */
+            }
         }
 
         .progress-container {
