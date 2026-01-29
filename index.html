@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Para o Amor da Minha Vida ❤️</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>❤️</text></svg>">
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -39,12 +40,22 @@
         h1, h2 { font-family: 'Dancing Script', cursive; color: var(--primary); }
         h1 { font-size: 2.8rem; margin-bottom: 10px; }
         
-        .step { display: none; animation: fadeIn 0.8s ease-out; }
-        .step.active { display: block; }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .step { 
+            display: none; 
+        }
+        .step.active { 
+            display: block; 
+            animation: slideUp 4s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+        @keyframes slideUp {
+            from { 
+                opacity: 0; 
+                transform: translateY(40px);
+            }
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            }
         }
 
         button {
@@ -118,11 +129,48 @@
             from { background-position: 0 0; }
             to { background-position: 0 100%; } /* Move o fundo */
         }
+
+        .polaroid img {
+            width: 100%; height: 110px; object-fit: cover;
+            /* Começa preto e branco */
+            filter: grayscale(100%);
+            transition: filter 0.5s ease;
+        }
+
+        /* Quando passa o mouse, fica colorido */
+        .polaroid:hover img {
+            filter: grayscale(0%);
+        }
+
+        .progress-container {
+            width: 100%; background: #eee; height: 6px;
+            position: absolute; top: 0; left: 0;
+            border-radius: 40px 40px 0 0; overflow: hidden;
+        }
+        .progress-bar {
+            height: 100%; background: var(--primary); width: 0%;
+            transition: width 0.5s ease-in-out;
+        }
+        
+        @keyframes heartbeat {
+            0% { transform: scale(1); box-shadow: 0 8px 20px rgba(244, 9, 88, 0.3); }
+            50% { transform: scale(1.05); box-shadow: 0 15px 35px rgba(244, 9, 88, 0.5); }
+            100% { transform: scale(1); box-shadow: 0 8px 20px rgba(244, 9, 88, 0.3); }
+        }
+
+        /* Classe especial para o botão final */
+        .btn-pulse {
+            animation: heartbeat 1.5s infinite ease-in-out;
+        }
     </style>
 </head>
 <body>
 
     <audio id="bg-music" loop><source src="Geleira do tempo.mp3" type="audio/mpeg"></audio>
+
+    <div class="progress-container">
+        <div class="progress-bar" id="love-progress"></div>
+    </div>
 
     <div class="container">
         
@@ -181,7 +229,7 @@
         <div id="step-6" class="step">
             <h1>Renovando nossa aliança</h1>
             <p>Daynara, aceita continuar sendo minha melhor amiga, minha esposa e o grande amor da minha vida, hoje e por todos os nossos amanhãs?</p>
-            <button onclick="finalCelebration()">SIM, PARA SEMPRE! ❤️</button>
+            <button class="btn-pulse" onclick="finalCelebration()">SIM, PARA SEMPRE! ❤️</button>
             <br><br>
             <small style="opacity: 0.7;">(Dica: O botão de "Não" foi removido pelo seu marido apaixonado 😉)</small>
         </div>
@@ -211,6 +259,8 @@
             document.getElementById(`step-${currentIndex + 1}`).classList.add('active');
             if(currentIndex + 1 === 4) spawnHearts();
             window.scrollTo({top: 0, behavior: 'smooth'});
+            const progress = ((currentIndex + 1) / 7) * 100;
+            document.getElementById('love-progress').style.width = progress + '%';
         }
 
         function correctDate() { startTimer(); nextStep(1); }
